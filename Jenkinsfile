@@ -10,5 +10,12 @@ pipeline {
                 echo "clone"
             }
         }
+        stage('Docker build') {
+            steps {
+                script {
+                  app =  docker.build('rajack')
+                }
+            }
+        }
     } 
 }
