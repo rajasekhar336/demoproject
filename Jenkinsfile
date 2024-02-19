@@ -27,20 +27,20 @@ pipeline {
                 script {
                     def ecrUrl = 'https://471112907684.dkr.ecr.ap-south-1.amazonaws.com'
                     def dockerImage = 'rajack'
-                    def timestamp = new Date().format("yyyyMMddHHmmss")
+                    
 
                     docker.withRegistry(ecrUrl, 'ecr:ap-south-1:AWS_CRED') {
-                    // Tag the image with a timestamp
-                    docker.image(dockerImage).tag(timestamp)
+                        // Tag the image with a timestamp
+                        docker.image(dockerImage).tag
 
-                      // Push the tagged image
-                    docker.image("${ecrUrl}/${dockerImage}:${timestamp}").push()
+                        // Push the tagged image
+                        docker.image("${ecrUrl}/${dockerImage}:").push()
 
-                    // Tag the image as 'latest'
-                    docker.image(dockerImage).tag("latest")
+                        // Tag the image as 'latest'
+                        docker.image(dockerImage).tag("latest")
 
-                    // Push the 'latest' tagged image
-                    docker.image("${ecrUrl}/${dockerImage}:latest").push()
+                        // Push the 'latest' tagged image
+                        docker.image("${ecrUrl}/${dockerImage}:latest").push()
                     }
                 }
             }
