@@ -23,28 +23,27 @@ pipeline {
             }
         }
         stage('Docker push to ECR') {
-    steps {
-        script {
-            def ecrCredentials = 'AWS_CRED'
-            def ecrUrl = 'https://471112907684.dkr.ecr.ap-south-1.amazonaws.com'
-            def dockerImage = 'rajack'
-            def buildNumber = "${env.BUILD_NUMBER}"
+            steps {
+                script {
+                    def ecrUrl = 'https://471112907684.dkr.ecr.ap-south-1.amazonaws.com'
+                    def dockerImage = 'rajack'
+                    def timestamp = new Date().format("yyyyMMddHHmmss")
 
-            docker.withRegistry(ecrUrl, ecrCredentials) {
-                // Tag the image with build number
-                docker.image(dockerImage).tag("${buildNumber}")
+                    docker.withRegistry(ecrUrl, 'ecr:ap-south-1:AWS_CRED') {
+                    // Tag the image with a timestamp
+                    docker.image(dockerImage).tag(timestamp)
 
-                // Push the tagged image
-                docker.image("${ecrUrl}/${dockerImage}:${buildNumber}").push()
+                      // Push the tagged image
+                    docker.image("${ecrUrl}/${dockerImage}:${timestamp}").push()
 
-                // Tag the image as 'latest'
-                docker.image(dockerImage).tag("latest")
+                    // Tag the image as 'latest'
+                    docker.image(dockerImage).tag("latest")
 
-                // Push the 'latest' tagged image
-                docker.image("${ecrUrl}/${dockerImage}:latest").push()
+                    // Push the 'latest' tagged image
+                    docker.image("${ecrUrl}/${dockerImage}:latest").push()
+                    }
+                }
             }
         }
-    }
-}
     }
 }
