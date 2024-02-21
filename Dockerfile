@@ -26,7 +26,9 @@ RUN a2enmod rewrite
 #RUN sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/' /usr/local/etc/php/php.ini-production
 #RUN sed -i 's/^upload_max_filesize = .*/upload_max_filesize = 256M/' /usr/local/etc/php/php.ini-development
 # Copy CodeIgniter files into the container
-COPY src/detsci /var/www/html/
+COPY src/omrs/ /var/www/html/
+RUN chmod -R 777 /var/www/html/
+RUN chmod -R 777 /tmp/
 
 # Configure virtual host
 COPY apache-config/000-default.conf /etc/apache2/sites-available/000-default.conf
