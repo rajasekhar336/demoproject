@@ -32,5 +32,12 @@ pipeline {
                 }
             }
         }
+        stage('Integrate Jenkins with EKS Cluster and Deploy') {
+            steps {
+                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'demo1', contextName: '', credentialsId: 'SECRETE_TOKEN', namespace: 'default', serverUrl: 'https://42B1C5C5791CAE749477F598FF4F39D0.gr7.ap-south-1.eks.amazonaws.com']]) {
+                sh 'kubectl apply -f deployment.yaml'
+                }
+            }
+        }
     }
 }

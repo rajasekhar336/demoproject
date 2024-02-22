@@ -27,8 +27,8 @@ metadata:
 spec:
   selector:
     app: php-app
-  type: NodePort
+  type: LoadBalancer  
   ports:
     - port: 80
       targetPort: 80
-      nodePort: 31000
+
